@@ -6,7 +6,7 @@ import subprocess
 import pygetwindow as gw
 import time
 
-# Initialize MediaPipe Hand model
+# Initialization MediaPipe Hand model
 mp_hands = mp.solutions.hands
 mp_draw = mp.solutions.drawing_utils
 hands = mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7)
@@ -21,13 +21,13 @@ keyboard_layout = [
     ['Ctrl', 'Alt', 'Space', 'Alt', 'Ctrl']
 ]
 
-# Keyboard layout positioning
-key_width, key_height = 60, 60
-start_x, start_y = 50, 200  
+# Keyboard size and positions
+key_width, key_height = 80, 80
+start_x, start_y = 80, 200  
 
 # Track double-tap state
 last_tap_time = 0
-double_tap_threshold = 0.3  # 300ms for double-tap
+double_tap_threshold = 0.9  # 900ms for double-tap
 last_tapped_key = None
 
 def get_key_from_position(finger_x, finger_y):
@@ -41,10 +41,9 @@ def get_key_from_position(finger_x, finger_y):
 
 # Open Notepad and wait for it to load
 notepad_process = subprocess.Popen("notepad.exe")
-time.sleep(2)
+time.sleep(1)
 
 def focus_notepad():
-    """Ensure Notepad is active before typing"""
     notepad_window = gw.getWindowsWithTitle("Untitled - Notepad")
     if notepad_window:
         notepad_window[0].activate()
@@ -61,7 +60,7 @@ while cap.isOpened():
     if not ret:
         break
     
-    frame = cv2.flip(frame, 1)  # Flip horizontally
+    frame = cv2.flip(frame, 1)  # Flip horizontally so 1
     h, w, _ = frame.shape
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     results = hands.process(rgb_frame)
